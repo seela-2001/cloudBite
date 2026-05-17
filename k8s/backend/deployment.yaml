@@ -1,0 +1,55 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: backend-deployment 
+  namespace: cloudbite-dev 
+  labels: 
+    app: backend 
+    env: dev 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: backend 
+      env: dev 
+  template: 
+    metadata: 
+      labels: 
+        app: backend 
+        env: dev 
+    spec: 
+      containers: 
+        - image: sohila12/cloudbite-backend:v1
+          name: backend 
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 4000
+          env: 
+            - name: JWT_SECRET 
+              valueFrom: 
+                secretKeyRef: 
+                  name: backend-secrets 
+                  key: JWT_SECRET
+            - name: SALT 
+              valueFrom: 
+                secretKeyRef: 
+                  name: backend-secrets 
+                  key: SALT 
+            - name: STRIPE_SECRET_KEY 
+              valueFrom: 
+                secretKeyRef: 
+                  name: backend-secrets
+                  key: STRIPE_SECRET_KEY
+            - name: MONGO_URL 
+              valueFrom: 
+                secretKeyRef: 
+                  name: backend-secrets 
+                  key: MONGO_URL
+          volumeMounts: 
+            - name: backend-volume
+              mountPath: /app/uploads 
+      volumes: 
+        - name: backend-volume 
+          persistentVolumeClaim: 
+            claimName: backend-pvc
+        
