@@ -1,0 +1,41 @@
+name: Backend-CICD 
+
+on: 
+  push: 
+    paths: 
+      - 'backend/**'
+    branches: 
+      - main 
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest 
+    
+    steps: 
+      - uses: actions/checkout@v2 
+      - name: Logind DockerHub 
+        uses: docker/login-action@v2 
+        with: 
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push Backend Image 
+        uses: docker/build-push/action@v2 
+        with: 
+          context: ./backend 
+          push: true 
+          tags: | 
+            ${{ vars.DOCKER_USERNAME }}/cloudbite-backend:${{ github.sha }}
+      
+      - name: Update Helm values
+        run: |
+          sed -i "s|tag:.*|tag: ${{ github.sha }}|" cloudbite-chart/values.yaml
+
+      - name: Commit updated Helm values
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add cloudbite-chart/values.yaml
+          git commit -m "update backend image tag to ${{ github.sha }}"
+          git push origin main
+    
