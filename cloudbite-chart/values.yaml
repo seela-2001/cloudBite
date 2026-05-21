@@ -1,0 +1,15 @@
+backend: 
+  image: sohila12/cloudbite-backend:v1
+  ports: 4000
+  replicas: 1
+
+frontend: 
+  image: sohila12/cloudbite-frontend:v1
+  ports: 80 
+  replicas: 1
+
+mongodb: 
+  image: mongo:8.0
+  ports: 27017 
+  replicas: 1 
+  storage: 1Gi

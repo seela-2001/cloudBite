@@ -2,12 +2,11 @@ apiVersion: apps/v1
 kind: Deployment 
 metadata: 
   name: backend-deployment 
-  namespace: cloudbite-dev 
   labels: 
     app: backend 
     env: dev 
 spec: 
-  replicas: 1 
+  replicas: {{ .Values.backend.replicas }}
   selector: 
     matchLabels: 
       app: backend 
@@ -19,11 +18,11 @@ spec:
         env: dev 
     spec: 
       containers: 
-        - image: sohila12/cloudbite-backend:v1
+        - image: {{ .Values.backend.image }}
           name: backend 
           imagePullPolicy: Always
           ports: 
-            - containerPort: 4000
+            - containerPort: {{ .Values.backend.ports }}
           env: 
             - name: JWT_SECRET 
               valueFrom: 
