@@ -26,13 +26,24 @@ jobs:
       - name: Get current backend version
         id: version
         run: |
-          CURRENT_VERSION=$(grep -A 2 "backend:" cloudbite-chart/values.yaml | grep "tag:" | awk '{print $2}' | tr -d '"')
+          CURRENT_VERSION=$(awk '
+            /backend:/ {found=1}
+            found && /tag:/ {
+              gsub(/"/, "", $2)
+              print $2
+              exit
+            }
+          ' cloudbite-chart/values.yaml)
+
+          echo "Current version: $CURRENT_VERSION"
 
           IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
 
           NEW_PATCH=$((patch + 1))
 
           NEW_VERSION="$major.$minor.$NEW_PATCH"
+
+          echo "New version: $NEW_VERSION"
 
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
