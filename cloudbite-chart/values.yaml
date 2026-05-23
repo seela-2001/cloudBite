@@ -1,7 +1,7 @@
 backend:
   image:
     repository: sohila12/cloudbite-backend
-    tag: 21c02c6e215e70d28e0be037c64f391ea844fdaa
+    tag: "1.0.0"
   service:
     port: 4000
   replicas: 2
@@ -9,7 +9,7 @@ backend:
 frontend:
   image:
     repository: sohila12/cloudbite-frontend
-    tag: 21c02c6e215e70d28e0be037c64f391ea844fdaa
+    tag: "1.0.0"
   service:
     port: 80
   replicas: 1
@@ -17,7 +17,7 @@ frontend:
 mongodb:
   image:
     repository: mongo
-    tag: 21c02c6e215e70d28e0be037c64f391ea844fdaa
+    tag: "8:0"
   service:
     port: 27017
   replicas: 1

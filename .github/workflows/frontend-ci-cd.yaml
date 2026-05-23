@@ -1,43 +1,59 @@
-name: Frontend-CICD 
+name: Frontend-CICD
 
-on: 
-  push: 
-    paths: 
-      - 'frontend/**' 
-    branches: 
-      - main 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
 
 permissions:
   contents: write
 
-jobs: 
-  build: 
-    runs-on: ubuntu-latest 
-    
-    steps: 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
       - uses: actions/checkout@v4
-      - name: Login DockerHub 
+
+      - name: Login DockerHub
         uses: docker/login-action@v3
-        with: 
+        with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }} 
-      
-      - name: Build and Push Frontend Image 
-        uses: docker/build-push-action@v5
-        with: 
-          context: ./frontend 
-          push: true 
-          tags: | 
-            ${{ vars.DOCKERHUB_USERNAME }}/cloudbite-frontend:${{ github.sha }}          
-      
-      - name: Update Helm values
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get current frontend version
+        id: version
         run: |
-          sed -i "s|tag:.*|tag: ${{ github.sha }}|" cloudbite-chart/values.yaml
+          CURRENT_VERSION=$(grep -A 2 "frontend:" cloudbite-chart/values.yaml | grep "tag:" | awk '{print $2}' | tr -d '"')
+
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+
+          NEW_PATCH=$((patch + 1))
+
+          NEW_VERSION="$major.$minor.$NEW_PATCH"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/cloudbite-frontend:${{ steps.version.outputs.version }}
+
+      - name: Update frontend Helm tag only
+        run: |
+          sed -i '/frontend:/,/mongodb:/ s/tag:.*/tag: "${{ steps.version.outputs.version }}"/' cloudbite-chart/values.yaml
 
       - name: Commit updated Helm values
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add cloudbite-chart/values.yaml
-          git commit -m "update frontend image tag to ${{ github.sha }}"
+
+          git commit -m "ci: update frontend image to ${{ steps.version.outputs.version }}" || echo "No changes"
+
           git push
