@@ -12,7 +12,7 @@ frontend:
     tag: 21c02c6e215e70d28e0be037c64f391ea844fdaa
   service:
     port: 80
-  replicas: 2
+  replicas: 1
 
 mongodb:
   image:
