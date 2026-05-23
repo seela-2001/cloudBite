@@ -20,5 +20,5 @@ mongodb:
     tag: "8:0"
   service:
     port: 27017
-  replicas: 1
+  replicas: 2
   storage: 1Gi

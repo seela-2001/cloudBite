@@ -8,7 +8,7 @@ export $(grep -v '^#' ./backend/.env | xargs)
 BACKEND_IMAGE="cloudbite-backend"
 FRONTEND_IMAGE="cloudbite-frontend"
 
-TAG="v1"
+TAG="1.0.0"
 
 # Building backend image
 
