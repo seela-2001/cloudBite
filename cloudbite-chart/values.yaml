@@ -5,6 +5,14 @@ backend:
   service:
     port: 4000
   replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 frontend:
   image:
