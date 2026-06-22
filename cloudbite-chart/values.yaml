@@ -29,4 +29,4 @@ mongodb:
   service:
     port: 27017
   replicas: 2
-  storage: 1Gi
+  storage: 5Gi

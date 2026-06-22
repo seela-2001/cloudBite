@@ -5,9 +5,7 @@ metadata:
 spec: 
   accessModes: 
     - ReadWriteOnce 
+  storageClassName: gp2 
   resources: 
     requests: 
       storage: 2Gi
-    limits: 
-      storage: 3Gi
-  storageClassName: standard
