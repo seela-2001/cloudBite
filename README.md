@@ -18,47 +18,7 @@ The application consists of:
 
 # Architecture
 
-```text
-                           GitHub Repository
-                                   |
-                                   v
-                               ArgoCD
-                                   |
-                                   v
-                              Helm Chart
-                                   |
-                                   v
-+----------------------------------------------------------------+
-|                         Amazon EKS Cluster                     |
-|                                                                |
-|  Frontend Deployment                                           |
-|          |                                                     |
-|          v                                                     |
-|      Frontend Service                                          |
-|                                                                |
-|  Backend Deployment                                            |
-|          |                                                     |
-|          v                                                     |
-|      Backend Service                                            |
-|                                                                |
-|  MongoDB Deployment                                            |
-|          |                                                     |
-|          v                                                     |
-|      MongoDB Service                                            |
-|                                                                |
-+----------------------------------------------------------------+
-                                   |
-                                   v
-                AWS Load Balancer Controller (ALB)
-                                   |
-                                   v
-                    AWS Application Load Balancer
-                                   |
-                                   v
-                                End Users
-```
-
----
+![Architecture](docs/architecture-diagram.jpg)
 
 # Technologies Used
 
