@@ -575,12 +575,33 @@ kubectl get applications -n argocd
 Add screenshots for:
 
 * AWS EKS Cluster
+  
+  <img width="1577" height="344" alt="image" src="https://github.com/user-attachments/assets/bd127dbb-1b01-42c5-a6f2-3582d31c12ac" />
+
 * Terraform Apply Success
+  
+  <img width="1322" height="161" alt="image" src="https://github.com/user-attachments/assets/217af77c-1d4d-4e37-bad0-25a78ad2e21d" />
+
 * ArgoCD Dashboard
+  
+  <img width="1676" height="527" alt="image" src="https://github.com/user-attachments/assets/a2b4175e-de2b-4aae-a877-fc89824dcd5b" />
+  
 * Running Pods
+
+  <img width="629" height="127" alt="image" src="https://github.com/user-attachments/assets/68fb90f5-d9ad-42c8-9f62-8f4fff918477" />
+
 * Load Balancer
+  
+  <img width="1179" height="182" alt="image" src="https://github.com/user-attachments/assets/5e9a1d88-7b24-41d8-b78a-2ff979797eb5" />
+
 * Application Home Page
+  
+  <img width="1667" height="997" alt="image" src="https://github.com/user-attachments/assets/92f82bdc-ea1d-4cce-a413-08078e50a382" />
+
 * Kubernetes Resources
+  
+  <img width="789" height="392" alt="image" src="https://github.com/user-attachments/assets/2fb76e8f-f0fc-4603-b6d7-1291e1d8ac12" />
+
 
 ---
 
