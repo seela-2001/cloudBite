@@ -140,10 +140,15 @@ kubectl apply -n argocd \
 
 ## Step 3
 
-Install Sealed Secrets Controller.
+### Install Sealed Secrets Controller
 
 ```bash
-kubectl apply -f sealed-secrets-controller.yaml
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm repo update
+
+helm install sealed-secrets-controller sealed-secrets/sealed-secrets \
+  -n kube-system
+```
 ```
 
 ## Step 4
@@ -159,7 +164,7 @@ helm install aws-load-balancer-controller ...
 Deploy CloudBite Application using ArgoCD.
 
 ```bash
-kubectl apply -f application.yaml
+kubectl apply -f argocd.yaml
 ```
 
 ## Step 6
